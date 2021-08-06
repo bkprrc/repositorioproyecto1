@@ -44,7 +44,8 @@ CREATE TABLE residente
 INSERT INTO residente (id_residente,nombre_residente,apellido_residente,edad,religion,id_representante,
 lugar_trabajo,EPS,tel_residente,vacuna,condicion_salud,correo_residente,estado_civil)
  VALUES ('94418008','Alexander','Corrales Granados','46','Adventista','N/A','ALMOTORES KIA SAMECO',
- 'salud total','3162422831','NO','buena','Anlexyjesus@gmail.com','casado')
+ 'salud total','3162422831','NO','buena','Anlexyjesus@gmail.com','casado'),('38460748','Paula Andrea','Cañon Garcia','40','Adventista','N/A','FUNSEFS',
+ 'salud total','3164265697','NO','buena','Anlexyjesus@hotmail.com','casada')
 
 --Inserts (create)
 INSERT INTO parqueadero 
@@ -54,4 +55,3 @@ INSERT INTO parqueadero
  --selects (read)
  SELECT num_parqueadero FROM parqueadero 
  WHERE id_parqueadero = '1'
- 
