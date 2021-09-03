@@ -3,42 +3,22 @@ CREATE  TABLE parqueadero
     id_parqueadero SERIAL,
     num_parqueadero VARCHAR,
     matri_parqueadero BIGINT,
-    coef_parqueadero FLOAT
+    coef_parqueadero FLOAT,
     CONSTRAINT PK_parqueadero PRIMARY KEY (id_parqueadero)
 )
 
 INSERT INTO parqueadero  
 (num_parqueadero, matri_parqueadero, coef_parqueadero)
- VALUES ('D01','1477828390','24.45')
+ VALUES ('D01','1477828390','24.45'),('D04','147245531','12.55')
 
 --selects (read)
+SELECT * FROM parqueadero
  SELECT num_parqueadero FROM parqueadero WHERE num_parqueadero = 'D01'
- UPDATE parqueadero SET num_parqueadero = 'D04' WHERE num_parqueadero = 'D01'
+ UPDATE parqueadero SET num_parqueadero = 'D01' WHERE num_parqueadero = 'D04'
  DELETE FROM parqueadero WHERE num_parqueadero= 'D01' 
 
-CREATE TABLE mascota
-(
-    id_mascota SERIAL,
-    raza_mascota VARCHAR,
-    nombre_mascota VARCHAR,
-    vacuna_mascota VARCHAR,
-    especie_mascota VARCHAR,
-    id_residente INTEGER,
-    CONSTRAINT PK_mascota PRIMARY KEY (id_mascota),
-    CONSTRAINT FK_PK_residente FOREIGN KEY (id_residente) REFERENCES residente(id_residente)
-)
 
-INSERT INTO mascota  
-(raza_mascota, nombre_mascota, vacuna_mascota, especie_mascota, id_residente)
- VALUES ('Frespuder','Milu','si','perro','1')
-
- --selects (read)
- SELECT nombre_mascota FROM mascota WHERE nombre_mascota = 'Milu'
- UPDATE mascota SET nombre_mascota = 'Mil' WHERE nombre_mascota = 'Milu'
- DELETE FROM mascota WHERE nombre_mascota = 'Milu' 
-
-
-SELECT * FROM residente 
+ SELECT * FROM residente 
 
 CREATE TABLE residente
 (
@@ -76,6 +56,28 @@ lugar_trabajo,EPS,tel_residente,vacuna,condicion_salud,correo_residente,estado_c
  'salud total','3164265697','NO','buena','Anlexyjesus@hotmail.com','casada')
 -------------------
 
+CREATE TABLE mascota
+(
+    id_mascota SERIAL,
+    raza_mascota VARCHAR,
+    nombre_mascota VARCHAR,
+    vacuna_mascota VARCHAR,
+    especie_mascota VARCHAR,
+    id_residente INTEGER,
+    CONSTRAINT PK_mascota PRIMARY KEY (id_mascota),
+    CONSTRAINT FK_PK_residente FOREIGN KEY (id_residente) REFERENCES residente(id_residente)
+)
+
+INSERT INTO mascota  
+(raza_mascota, nombre_mascota, vacuna_mascota, especie_mascota, id_residente)
+ VALUES ('Frespuder','Milu','si','perro','1')
+
+ --selects (read)
+ SELECT nombre_mascota FROM mascota WHERE nombre_mascota = 'Milu'
+ UPDATE mascota SET nombre_mascota = 'Mil' WHERE nombre_mascota = 'Milu'
+ DELETE FROM mascota WHERE nombre_mascota = 'Milu' 
+
+
 SELECT * FROM vehiculo  
 
 CREATE TABLE vehiculo 
@@ -86,8 +88,9 @@ CREATE TABLE vehiculo
     color VARCHAR,
     marca VARCHAR,
     modelo VARCHAR,
-    id_residente INTEGER
-    CONSTRAINT PK_vehiculo PRIMARY KEY (id_vehiculo)
+    id_residente INTEGER,
+    CONSTRAINT PK_vehiculo PRIMARY KEY (id_vehiculo),
+    CONSTRAINT FK_PK_residente FOREIGN KEY (id_residente) REFERENCES residente(id_residente)
 )
 
 INSERT INTO vehiculo 
@@ -100,7 +103,6 @@ INSERT INTO vehiculo
  DELETE FROM vehiculo WHERE marca = 'TOYOTA' 
 
 
-
 SELECT * FROM apartamento 
 
 CREATE TABLE apartamento 
@@ -109,8 +111,8 @@ CREATE TABLE apartamento
     matricula_apartamento VARCHAR,
     num_apartamento VARCHAR,
     bloque VARCHAR,
-     coeficiente INTEGER
-    CONSTRAINT PK_vehiculo PRIMARY KEY (id_vehiculo)
+    coeficiente INTEGER,
+    CONSTRAINT PK_apartamento PRIMARY KEY (id_apartamento)
 )
 
 INSERT INTO apartamento 
@@ -118,9 +120,9 @@ INSERT INTO apartamento
  VALUES ('19884639', '102', '7', '356,23')
 
  --selects (read)
- SELECT num_aparatamento FROM aparatamento WHERE num_apartamento = '102' 
+ SELECT num_apartamento FROM aparatamento WHERE num_apartamento = '102' 
  UPDATE apartamento SET num_apartamento = '104' WHERE num_apartamento = '102'
- DELETE FROM aparatamento WHERE num_apartamento  = '102' 
+ DELETE FROM apartamento WHERE num_apartamento  = '102' 
 
 
  SELECT * FROM propietario 
@@ -137,16 +139,17 @@ CREATE TABLE propietario
     apellido_propietario VARCHAR,
     vacuna BOOLEAN,
     razon_social VARCHAR,
-    correo_propietario VARCHAR
+    correo_propietario VARCHAR,
     CONSTRAINT PK_propietario  PRIMARY KEY (id_propietario)
 )
 
 --Inserts (create)
 INSERT INTO propietario 
-(num_identificacion, tel_propietario, ocupacion, edad, nombre_propietario, apellido_propietario, vacuna, razon_social, correo_propietario)
- VALUES ('198372900', '315009820', 'FISIO TERAPEUTA', 'Frojolito', 'Gomes', 'NO', 'DOMI', 'Frijol.gomes@gmail.com')
+( tipo_id_propietario,num_identificacion, tel_propietario, ocupacion, edad, nombre_propietario, apellido_propietario, vacuna, razon_social, correo_propietario)
+ VALUES ('pasaporteS','198372900', '315009820', 'FISIO TERAPEUTA', '28', 'Frojolito', 'Gomes', 'NO', 'DOMI', 'Frijol.gomes@gmail.com')
 
  --selects (read)
+ SELECT * FROM propietario
  SELECT num_identificacion FROM propietario WHERE num_identificacion = '198372900' 
  UPDATE propietario SET num_identificacion = '1928374920' WHERE num_identificacion = '198372900'
  DELETE FROM propietario WHERE num_identificacion = '198372900' 
@@ -157,20 +160,30 @@ CREATE  TABLE aparatamento_propietario
     id_aparatamento_propietario SERIAL,
     id_aparatamento INTEGER,
     id_propietario INTEGER,
-    CONSTRAINT PK_aparatamento_propietario PRIMARY KEY (id_aparatamento_propietario)
+    CONSTRAINT PK_aparatamento_propietario PRIMARY KEY (id_aparatamento_propietario),
     CONSTRAINT FK_PK_aparatamento FOREIGN KEY (id_aparatamento) REFERENCES aparatamento(id_aparatamento),
     CONSTRAINT FK_PK_propietario FOREIGN KEY (id_propietario) REFERENCES propietario(id_propietario)
 )
 
 
-CREATE  TABLE parqueadero_propietario
+
+CREATE TABLE parqueadero_propietario
 (
     id_parqueadero_propietario SERIAL,
     id_parqueadero INTEGER,
     id_propietario INTEGER,
-    CONSTRAINT PK_parqueadero_propietario PRIMARY KEY (id_parqueadero_propietario)
+    CONSTRAINT PK_parqueadero_propietario PRIMARY KEY (id_parqueadero_propietario),
     CONSTRAINT FK_PK_parqueadero FOREIGN KEY (id_parqueadero) REFERENCES parqueadero(id_parqueadero),
     CONSTRAINT FK_PK_propietario FOREIGN KEY (id_propietario) REFERENCES propietario(id_propietario)
 )
+
+INSERT INTO parqueadero_propietario
+(id_parqueadero, id_propietario) 
+VALUES ('2','1'),('1','1');
+
+
+SELECT id_parqueadero FROM parqueadero_propietario WHERE id_propietario ='1';
+UPDATE parqueadero_propietario SET id_parqueadero ='3' WHERE id_propietario = '1' ;
+UPDATE parqueadero_propietario WHERE id_parqueadero ='1';
 
 
